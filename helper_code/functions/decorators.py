@@ -3,8 +3,9 @@
    Functions:
         timer: Calculate time taken to run given function and print to terminal.
         ntimes: Run given function n number of times.
+        make_html: Create html element from inner func text.
 
-   Decorator order important for combined use:
+   Decorator order important for combined use e.g:
         Run function twice and print total time taken for both function calls:
         @timer
         @ntimes(2)
@@ -39,5 +40,16 @@ def ntimes(n):
             for _ in range(n):
                 ret_value = func(*args, **kwargs)
             return ret_value
+        return wrapper
+    return inner
+
+
+def make_html(element):
+    """Decorator function: Create html element from inner func text."""
+    def inner(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            text = func(*args, **kwargs)
+            return f'<{element}>{text}</{element}>'
         return wrapper
     return inner
